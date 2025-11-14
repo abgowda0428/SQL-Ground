@@ -23,3 +23,7 @@ FROM customers
 WHERE score != 0
 GROUP BY country
 HAVING SUM(score) > 430;
+
+
+SELECT DISTINCT country
+FROM customers;
