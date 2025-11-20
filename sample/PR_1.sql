@@ -46,9 +46,87 @@ FROM sys.tables;
 EXEC sp_columns Students;
 
 -- INSERTING THE DATA INTO TABLE
-INSERT INTO AUTOCRAT (ID,EMP_NAME,ADDRESS)
+INSERT INTO AUTOCRAT (ID,EMP_NAME,SALARY,ADDRESS)
 VALUES
-(1, 'Rahul Sharma','Bangalore'),
-(2, 'Sneha Reddy','Hyderabad');
+(3, 'Amit Verma', 170000, 'Mumbai'),
+(4, 'Priya Singh', 150000, 'Delhi'),
+(5, 'Kiran Kumar', 160000, 'Chennai'),
+(6, 'Deepak Nair', 155000, 'Kochi'),
+(7, 'Anita Das', 150000, 'Kolkata'),
+(8, 'Suresh Shetty', 165000, 'Mangalore'),
+(9, 'Harsha Gowda', 150000, 'Mysore'),
+(10, 'Lakshmi Devi', 175000, 'Vijayawada'),
+(11, 'Rohit Kulkarni', 150000, 'Pune'),
+(12, 'Manoj Patil', 180000, 'Nagpur'),
+(13, 'Shweta Mishra', 150000, 'Lucknow'),
+(14, 'Gaurav Jain', 160000, 'Jaipur'),
+(15, 'Anjali Mehta', 150000, 'Surat'),
+(16, 'Vijay Prasad', 170000, 'Patna'),
+(17, 'Rakesh Menon', 150000, 'Trivandrum'),
+(18, 'Neha Ghosh', 155000, 'Bhubaneswar'),
+(19, 'Ajay Thakur', 165000, 'Shimla'),
+(20, 'Pooja Yadav', 150000, 'Gurgaon');
+
+GO
 
 SELECT * FROM AUTOCRAT;
+GO
+-- ADDING THE COLUMN FOR EXISTING TABLE
+ALTER TABLE AUTOCRAT
+ADD DATEOFBIRTH DATE DEFAULT '2000-01-01';
+GO
+-- DROPING THE DEFAULT COLOUM ,IT HAS TO PERFORM BY TWO OPERATION
+-- FIRST WE SHOULD DROP THE CONSTRINT WHICH IS CREATE FOR THAT DEFAULT
+-- SECOND THEN AFTER WE SHOULD DROP THE COLOUM.
+ALTER TABLE AUTOCRAT
+DROP CONSTRAINT DF__AUTOCRAT__DATEOF__6EF57B66;
+GO
+
+ALTER TABLE AUTOCRAT
+DROP COLUMN DATEOFBIRTH;
+GO
+
+-- CHECKING HOW MANY CONSTRINT KEY ARE THERE IN TABLE FOR COLOUMN AND WT IS THE VALUE OF THAT COLOUM
+SELECT 
+    dc.name AS DefaultConstraintName,
+    c.name AS ColumnName
+FROM sys.default_constraints dc
+JOIN sys.columns c 
+    ON dc.parent_object_id = c.object_id 
+    AND dc.parent_column_id = c.column_id
+JOIN sys.tables t 
+    ON t.object_id = dc.parent_object_id
+WHERE t.name = 'AUTOCRAT';
+-- DROPING THE TABLE
+DROP TABLE AUTOCRAT;
+GO
+
+
+SELECT * FROM employees;
+--SELECT * FROM AUTOCRAT;
+GO
+
+-- INSERTING THE DATA FROM ONE TABLE TO ANOTHER TABLE
+
+INSERT INTO AUTOCRAT(ID,EMP_NAME,SALARY,ADDRESS)
+SELECT
+emp_id,
+emp_name,
+salary,
+city
+FROM
+employees;
+GO
+
+ALTER TABLE AUTOCRAT
+ADD EMAIL VARCHAR(50) DEFAULT 'YOU@GMAIL.COM'
+GO
+
+
+ALTER TABLE AUTOCRAT
+DROP CONSTRAINT DF__AUTOCRAT__EMAIL__72C60C4A
+GO
+
+ALTER TABLE AUTOCRAT
+DROP COLUMN EMAIL;
+GO;
