@@ -34,7 +34,7 @@ pr.created_at ::date,
 extract(YEAR from pr.created_at),
 now()-pr.created_at as Durations 
 from packing_requests pr 
-where id = '2fd6d51c-8264-4403-a957-ea893c291072'
+where id = '2fd6d51c-8264-4403-a957-ea893c291072' and
 where pr.status = 'APPROVED';
 
 select * from packing_requests pr 
