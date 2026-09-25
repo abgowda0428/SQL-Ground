@@ -13,6 +13,7 @@ select distinct i.uom  from items i ; --Distinct Unique values
 select i.uom,i.is_active  from items i ; -- Distinct on multiple colums (Unique Combination)
 
 -- DISTINCT ON (Postgres-specific) — first row per group, needs matching ORDER BY
+
 select distinct on (i.uom) i.uom, i.part_number 
 from items i
 order by i.uom, i.part_number; 
