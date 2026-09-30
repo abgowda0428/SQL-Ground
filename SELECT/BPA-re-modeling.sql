@@ -30,3 +30,56 @@ ORDER BY uom, is_active, unit_price_usd DESC;
  */
 
 select * from items i order by created_at desc limit 10 offset 2; -- Limit & offset -> Skip the first 2 rows, then give me the next 10.
+
+
+select i.part_number ,i.unit_price_usd from items i
+where i.unit_price_usd >= 25;
+
+select i.part_number , i.master_serial_no from items i 
+where i.master_serial_no is not null;
+
+
+select i.part_number , i.weight_grams from items i
+where i.weight_grams between 50 and 200;
+
+select item_name
+from items
+where item_name between 'A' and 'M'
+order by item_name;
+
+select i.part_number ,i.item_name ,i.unit_price_usd 
+from items i
+where i.is_active = True
+order by i.unit_price_usd desc nulls last;
+
+select * from items i 
+where i.weight_grams is null or i.unit_price_usd is null;
+
+select * from items i 
+where i.uom in ('KG', 'PCS', 'BOX');
+
+select * from items i 
+where i.item_name ilike '%Steel%';
+
+select * from items i 
+where i.unit_price_usd between 20 and 80 and i.is_active = true
+
+select count(i.id ) from items i ;
+
+select avg(i.unit_price_usd ) from items i; 
+
+select MAX(i.weight_grams ),MIN(i.weight_grams ) from items i ;
+
+select distinct on (i.uom) i.uom,i.part_number, i.unit_price_usd from items i 
+order by i.uom, i.unit_price_usd desc nulls last;
+
+select * from items i 
+where i.unit_price_usd is not null
+order by i.unit_price_usd asc limit 5;
+
+select * from items i 
+where i.created_at >= now() - interval '90 Days'
+order by i.created_at  asc limit 5 offset 3;
+
+select * from items i 
+where i.part_number  not ilike '%TEST' and i.is_active = true;
